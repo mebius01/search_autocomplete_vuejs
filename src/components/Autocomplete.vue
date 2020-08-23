@@ -1,7 +1,13 @@
 <template>
-  <div class="covid-block">
+  <div class="covid-block" :class="{'grid': objOneCountry}">
 
     <h1 class="h1">covid19</h1>
+
+    <template v-if="statusError">
+      <div class="status-error">
+        <span>{{statusError}}</span>
+     </div>
+    </template>
 
     <div class="input-block">
       <input type="text" placeholder="search..." v-model="search"
@@ -47,6 +53,7 @@
 
   </div>
 </template>
+
 <script>
 import axios from 'axios'
   export default {
@@ -59,6 +66,7 @@ import axios from 'axios'
         arrDataCountries: null,
         objOneCountry: null,
         arrowCounter: -1,
+        statusError: null
       };
     },
     watch: {
@@ -67,22 +75,21 @@ import axios from 'axios'
       }
     },
     methods: {
+      // Event: Enter, Up arrow and Down arrow
       keyArrowUp() {
         if (this.arrowCounter > 0) {
           this.arrowCounter = this.arrowCounter - 1;
         }
-        console.log(this.results[this.arrowCounter], this.arrowCounter);
       },
       keyArrowDown() {
         if (this.arrowCounter < this.results.length) {
           this.arrowCounter = this.arrowCounter + 1;
         }
-        console.log(this.results[this.arrowCounter], this.arrowCounter);
       },
       keyEnter() {
-        console.log("Enter", this.results[this.arrowCounter]);
         this.showObjOneCountry(this.results[this.arrowCounter])
       },
+      // shows and hides the all list
       showList() {
         console.log(this.btnShowListCountries);
         this.btnShowListCountries = !this.btnShowListCountries
@@ -122,11 +129,20 @@ import axios from 'axios'
       axios
         .get('https://api.covid19api.com/summary')
         .then(response => (this.arrDataCountries = response.data.Countries))
-        .catch(error => {console.log(error)})
+        .catch(error => (this.statusError = error))
     } 
   };
 </script>
+
 <style lang="scss" scope>
+  .status-error {
+    padding: 10px;
+    background: #f87171ad;
+    text-align: center;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+  }
 
   .is-active {
     border-bottom: 2px solid #3e8e41;
@@ -159,7 +175,6 @@ import axios from 'axios'
       content: "\00D7";
     }
   }
-
   .grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -167,13 +182,11 @@ import axios from 'axios'
     grid-template-areas: "h1 h1"
                           "input-block input-block"
                           "results-list country"
-  }
-  
+  } 
   .h1 {
     grid-area: h1;
   }
   .covid-block {
-    @extend .grid;
     width: 80vw;
     margin: 20px auto;
 

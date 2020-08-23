@@ -5,11 +5,11 @@
 </template>
 
 <script>
-import Autocomplete from './components/Autocomplete'
+import Autocomplete from "./components/Autocomplete"
 export default {
   name: "App",
   data() {
-    return {}
+    return {};
   },
   components: {
     Autocomplete

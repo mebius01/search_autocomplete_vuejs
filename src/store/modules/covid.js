@@ -1,14 +1,14 @@
-import axios from "axios"
+import axios from "axios";
 export default {
   namespaced: true,
   state: {
     rootUrl: "https://api.covid19api.com/summary",
-    search: '',
+    search: "",
     results: [],
     btnShowListCountries: false,
     arrDataCountries: null,
     objOneCountry: null,
-    arrowCounter: -1,
+    arrowCounter: -1
   },
   getters: {},
   mutations: {},
@@ -16,7 +16,7 @@ export default {
     getResponse() {
       axios
         .get(this.rootUrl)
-        .then(response => (this.arrDataCountries = response.data.Countries))
+        .then(response => (this.arrDataCountries = response.data.Countries));
     }
-  },
-}
+  }
+};

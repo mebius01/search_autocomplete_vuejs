@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import covid from './modules/covid'
+import covid from "./modules/covid";
 
 Vue.use(Vuex);
 
